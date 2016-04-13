@@ -24,20 +24,14 @@ struct FileLoadInfo
     bool deleteAfterLoad; /// Delete file after load - for use with temporary files.
 
     FileLoadInfo() : replaceLabel(true), deleteAfterLoad(false) {}
-    FileLoadInfo(const QString& filePath_, const QString& dataSetLabel_ = "",
-                 bool replaceLabel_ = true)
-        : filePath(filePath_),
-        dataSetLabel(dataSetLabel_),
-        replaceLabel(replaceLabel_),
+    FileLoadInfo(const QString& filePath, const QString& dataSetLabel = "",
+                 bool replaceLabel = true)
+        : filePath(filePath),
+        dataSetLabel(dataSetLabel.isEmpty() ? filePath : dataSetLabel),
+        replaceLabel(replaceLabel),
         // Following must be set explicitly - getting it wrong will delete user data!
         deleteAfterLoad(false)
-    {
-        if (dataSetLabel_.isEmpty())
-        {
-            QFileInfo fileInfo(filePath_);
-            dataSetLabel = fileInfo.fileName();
-        }
-    }
+    { }
 };
 
 Q_DECLARE_METATYPE(FileLoadInfo)
